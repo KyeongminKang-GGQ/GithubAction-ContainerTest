@@ -52,7 +52,21 @@ on:
         required: false
 
 jobs:
+  CheckBranch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        run: |
+          if '${{ startsWith(inputs.ref_name, 'feature/') }}';
+          then
+            echo "Valid branch ${{ inputs.ref_name }}"
+          else
+            echo "Invalid branch ${{ inputs.ref_name }}"
+            exit 1
+          fi
+
   GetAwsValue:
+    needs: [CheckBranch]
     uses: ./.github/workflows/GetAwsValue.yml
     with:
       environment: ${{ inputs.environment }}

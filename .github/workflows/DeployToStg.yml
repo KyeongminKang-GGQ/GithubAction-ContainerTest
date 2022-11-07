@@ -54,9 +54,23 @@ on:
         required: false
 
 jobs:
+  CheckBranch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        run: |
+          if '${{ startsWith(inputs.ref_name, 'release/') || startsWith(inputs.ref_name, 'hotfix/') }}';
+          then
+            echo "Valid branch ${{ inputs.ref_name }}"
+          else
+            echo "Invalid branch ${{ inputs.ref_name }}"
+            exit 1
+          fi
+
   # release/hotfix 브랜치에서 발행된 최신의 rc 태깅을 찾는다.
   GetLatestTag:
     if: ${{ startsWith(inputs.ref_name, 'release/') || startsWith(inputs.ref_name, 'hotfix/') }}
+    needs: [CheckBranch]
     uses: ./.github/workflows/GetLatestTag.yml
     with:
       environment: ${{ inputs.environment }}
@@ -67,7 +81,7 @@ jobs:
   GetCommitFromTag:
     if: ${{ startsWith(inputs.ref_name, 'release/') || startsWith(inputs.ref_name, 'hotfix/') }}
     uses: ./.github/workflows/GetCommitFromTag.yml
-    needs: GetLatestTag
+    needs: [GetLatestTag]
     with:
       tag: ${{ needs.GetLatestTag.outputs.tag }}
       repository: ${{ inputs.repository }}
@@ -75,6 +89,7 @@ jobs:
 
   # 배포 시 필요한 값 가져오기
   GetAwsValue:
+    needs: [CheckBranch]
     uses: ./.github/workflows/GetAwsValue.yml
     with:
       environment: ${{ inputs.environment }}

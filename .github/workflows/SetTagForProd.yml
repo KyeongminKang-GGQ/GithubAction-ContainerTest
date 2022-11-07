@@ -22,10 +22,24 @@ on:
         required: true
 
 jobs:
+  CheckBranch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        run: |
+          if '${{ startsWith(inputs.ref_name, 'release/') || startsWith(inputs.ref_name, 'hotfix/') }}';
+          then
+            echo "Valid branch ${{ inputs.ref_name }}"
+          else
+            echo "Invalid branch ${{ inputs.ref_name }}"
+            exit 1
+          fi
+
   # release/hotfix 브랜치에서 배포 버전 추출
   # hotfix 브랜치면 1.0.0+hotfix.yymmdd
   # release 브랜치면 1.0.0+yymmdd
   ExtractVersion:
+    needs: [CheckBranch]
     if: ${{ startsWith(inputs.ref_name, 'release/') || startsWith(inputs.ref_name, 'hotfix/') }}
     runs-on: ubuntu-latest
     outputs:

@@ -53,8 +53,22 @@ on:
         required: false
 
 jobs:
+  CheckBranch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        run: |
+          if '${{ inputs.ref_name == 'main' }}';
+          then
+            echo "Valid branch ${{ inputs.ref_name }}"
+          else
+            echo "Invalid branch ${{ inputs.ref_name }}"
+            exit 1
+          fi
+
   # Main 브랜치에서 가장 최근의 TAG를 가져온다
   GetLatestTag:
+    needs: [CheckBranch]
     if: ${{ inputs.ref_name == 'main' }}
     uses: ./.github/workflows/GetLatestTag.yml
     with:
@@ -66,7 +80,7 @@ jobs:
   GetCommitFromTag:
     if: ${{ inputs.ref_name == 'main' }}
     uses: ./.github/workflows/GetCommitFromTag.yml
-    needs: GetLatestTag
+    needs: [GetLatestTag]
     with:
       tag: ${{ needs.GetLatestTag.outputs.tag }}
       repository: ${{ inputs.repository }}
@@ -74,6 +88,7 @@ jobs:
 
   # 배포 시 필요한 값 가져오기
   GetAwsValue:
+    needs: [CheckBranch]
     uses: ./.github/workflows/GetAwsValue.yml
     with:
       environment: ${{ inputs.environment }}

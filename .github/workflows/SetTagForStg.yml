@@ -22,9 +22,23 @@ on:
         required: true
 
 jobs:
+  CheckBranch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        run: |
+          if '${{ startsWith(inputs.ref_name, 'release/') || startsWith(inputs.ref_name, 'hotfix/') }}';
+          then
+            echo "Valid branch ${{ inputs.ref_name }}"
+          else
+            echo "Invalid branch ${{ inputs.ref_name }}"
+            exit 1
+          fi
+
   # release/hotfix 브랜치에서 가장 최신의 rc버전 태그를 가져온다
   # 브랜치 명과 동일한 rc 태그만 가져온다.
   GetLatestRcTag:
+    needs: [CheckBranch]
     if: ${{ startsWith(inputs.ref_name, 'release/') || startsWith(inputs.ref_name, 'hotfix/') }}
     uses: ./.github/workflows/GetLatestTag.yml
     with:
@@ -35,7 +49,7 @@ jobs:
   # release/hotfix 브랜치에서 새로운 RC버전 추출 (기존 rc 버전에서 1 증가 후 태깅)
   SetTagForStg:
     if: ${{ startsWith(inputs.ref_name, 'release/') || startsWith(inputs.ref_name, 'hotfix/') }}
-    needs: GetLatestRcTag
+    needs: [GetLatestRcTag]
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ env.TAG }}
@@ -105,6 +119,7 @@ jobs:
           tag: ${{ env.TAG }}
 
   ExtractMilestone:
+    needs: [CheckBranch]
     if: ${{ startsWith(inputs.ref_name, 'release/') || startsWith(inputs.ref_name, 'hotfix/') }}
     runs-on: ubuntu-latest
     outputs:
