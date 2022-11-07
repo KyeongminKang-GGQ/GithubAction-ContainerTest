@@ -30,20 +30,21 @@ jobs:
       ref_name: ${{ inputs.ref_name }}
 
   # release/hotfix 브랜치에서 새로운 RC버전 추출 (기존 rc 버전에서 1 증가 후 태깅)
-  MakeNewTagForStg:
+  SetTagForStg:
     if: ${{ startsWith(inputs.ref_name, 'release/') || startsWith(inputs.ref_name, 'hotfix/') }}
     needs: GetLatestRcTag
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ env.TAG }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref_name }}
           fetch-depth: 0
 
-      - name: Print values
+      - name: Print input values
         run: |
           echo branch = ${{ inputs.ref_name }} / current_tag = ${{ needs.GetLatestRcTag.outputs.tag }}
 
@@ -91,3 +92,11 @@ jobs:
         name: Print tag name
         run: |
           echo TAG = ${{ env.TAG }}
+
+      # release/hotfix 브랜치에서 새로운 RC버전 태깅
+      - if: ${{ env.TAG != '' }}
+        name: Tag commit
+        uses: tvdias/github-tagger@v0.0.1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.TAG }}
