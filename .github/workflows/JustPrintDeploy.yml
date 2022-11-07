@@ -21,6 +21,9 @@ on:
       commit:
         type: string
         required: true
+      environment:
+        type: string
+        required: true
       region:
         type: string
         required: true
@@ -55,6 +58,7 @@ jobs:
     steps:
       - name: Print information
         run: |
+          echo environment = ${{ inputs.environment }}
           echo repository = ${{ inputs.repository }}
           echo ref_name = ${{ inputs.ref_name }}
           echo ECR_REGISTRY = ${{ inputs.ecr_registry }}
