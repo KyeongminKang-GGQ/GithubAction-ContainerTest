@@ -7,8 +7,6 @@ name: CreateIssueFromTodo
 on:
   workflow_call:
     secrets:
-      GITHUB_TOKEN:
-        required: true
       TODO_ACTIONS_MONGO_URL:
         required: true
     inputs:
