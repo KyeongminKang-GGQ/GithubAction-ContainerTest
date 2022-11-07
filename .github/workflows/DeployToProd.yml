@@ -111,6 +111,7 @@ jobs:
       repository: ${{ inputs.repository }}
       ref_name: ${{ inputs.ref_name }}
       region: ${{ inputs.region }}
+      environment: ${{ inputs.environment }}
       commit: ${{ needs.GetCommitFromTag.outputs.commit }}
       ecr_registry: ${{ needs.GetAwsValue.outputs.ecr_registry }}
       ecr_repository: ${{ needs.GetAwsValue.outputs.ecr_repository }}

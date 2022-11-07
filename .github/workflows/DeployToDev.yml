@@ -88,6 +88,7 @@ jobs:
       repository: ${{ inputs.repository }}
       ref_name: ${{ inputs.ref_name }}
       commit: ${{ inputs.commit }}
+      environment: ${{ inputs.environment }}
       region: ${{ inputs.region }}
       ecr_registry: ${{ needs.GetAwsValue.outputs.ecr_registry }}
       ecr_repository: ${{ needs.GetAwsValue.outputs.ecr_repository }}

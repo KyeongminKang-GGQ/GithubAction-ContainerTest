@@ -114,6 +114,7 @@ jobs:
     with:
       repository: ${{ inputs.repository }}
       ref_name: ${{ inputs.ref_name }}
+      environment: ${{ inputs.environment }}
       region: ${{ inputs.region }}
       commit: ${{ needs.GetCommitFromTag.outputs.commit }}
       ecr_registry: ${{ needs.GetAwsValue.outputs.ecr_registry }}
@@ -137,6 +138,7 @@ jobs:
     with:
       repository: ${{ inputs.repository }}
       ref_name: ${{ inputs.ref_name }}
+      environment: ${{ inputs.environment }}
       region: ${{ inputs.region }}
       commit: ${{ needs.GetCommitFromTag.outputs.commit }}
       ecr_registry: ${{ needs.GetAwsValue.outputs.ecr_registry }}
