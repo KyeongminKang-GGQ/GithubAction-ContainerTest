@@ -158,7 +158,7 @@ jobs:
     uses: ./.github/workflows/NotifyToSlack.yml
     secrets: inherit
     with:
-      server_name: ${{ input.server_name }}
+      server_name: ${{ inputs.server_name }}
       environment: ${{ needs.ExtractEnvironment.outputs.environment }}
       version: ${{ inputs.tag }}
       status: success
@@ -177,7 +177,7 @@ jobs:
     uses: ./.github/workflows/NotifyToSlack.yml
     secrets: inherit
     with:
-      server_name: ${{ input.server_name }}
+      server_name: ${{ inputs.server_name }}
       environment: ${{ needs.ExtractEnvironment.outputs.environment }}
       version: ${{ inputs.tag }}
       status: failure
