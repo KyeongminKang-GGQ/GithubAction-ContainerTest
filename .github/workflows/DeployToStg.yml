@@ -10,6 +10,8 @@ on:
         required: true
       AWS_SECRET_ACCESS_KEY:
         required: true
+      SLACK_WEBHOOK_URL:
+        required: true
     inputs:
       # Checkout 시 필요한 Input Data
       repository:
