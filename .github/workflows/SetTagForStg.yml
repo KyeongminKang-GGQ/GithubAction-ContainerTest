@@ -132,6 +132,7 @@ jobs:
   ReportIssue:
     needs: [ExtractMilestone]
     uses: ./.github/workflows/ReportIssue.yml
+    secrets: inherit
     with:
       repository: ${{ inputs.repository }}
       ref_name: ${{ inputs.ref_name }}

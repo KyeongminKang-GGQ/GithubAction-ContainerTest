@@ -6,9 +6,9 @@ name: DeployToStg
 on:
   workflow_call:
     secrets:
-      AWS_ACCESS_KEY_ID_STG:
+      AWS_ACCESS_KEY_ID:
         required: true
-      AWS_SECRET_ACCESS_KEY_STG:
+      AWS_SECRET_ACCESS_KEY:
         required: true
     inputs:
       # Checkout 시 필요한 Input Data
@@ -90,9 +90,7 @@ jobs:
     needs: [GetCommitFromTag, GetAwsValue]
     #uses: ./.github/workflows/Deploy.yml
     uses: ./.github/workflows/JustPrintDeploy.yml
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STG }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STG }}
+    secrets: inherit
     with:
       repository: ${{ inputs.repository }}
       ref_name: ${{ inputs.ref_name }}
