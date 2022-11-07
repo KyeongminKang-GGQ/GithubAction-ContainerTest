@@ -50,7 +50,7 @@ jobs:
                   {
                    "mrkdwn_in": ["text"],
                       "color": '${{ inputs.status }}' === 'success' ? 'good' : '${{ inputs.status }}' === 'failure' ? 'danger' : 'warning',
-                      "pretext": `${'${{ inputs.status }}' === 'success' ? '✅' : '⛔'} *${{ env.server_name }} 배포 ${'${{ inputs.status }}' === 'success' ? '성공' : '실패'}*`,
+                      "pretext": `${'${{ inputs.status }}' === 'success' ? '✅' : '⛔'} *${{ inputs.server_name }} 배포 ${'${{ inputs.status }}' === 'success' ? '성공' : '실패'}*`,
                       "fields": [
                           {
                               "title": "repo",
