@@ -1,0 +1,67 @@
+name: Deploy
+
+# AWS 배포를 위한 Workflow
+# Deploy Workflow는 다른 Workflow 에서 호출한다
+# Deploy Workflow 호출 시 secrets 값과 inputs 값을 넘겨주어야 한다.
+
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+    inputs:
+      repository:
+        type: string
+        required: true
+      ref_name:
+        type: string
+        required: true
+      commit:
+        type: string
+        required: true
+      region:
+        type: string
+        required: true
+      ecr_registry:
+        type: string
+        required: true
+      ecr_repository:
+        type: string
+        required: true
+      task_definition:
+        type: string
+        required: true
+      container:
+        type: string
+        required: true
+      service:
+        type: string
+        required: true
+      cluster:
+        type: string
+        required: true
+      api_doc:
+        type: string
+        required: false
+      version:
+        type: string
+        required: false
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print information
+        run: |
+          echo repository = ${{ inputs.repository }}
+          echo ref_name = ${{ inputs.ref_name }}
+          echo ECR_REGISTRY = ${{ inputs.ecr_registry }}
+          echo ECR_REPOSITORY = ${{ inputs.ecr_repository }}
+          echo task_definition = ${{ inputs.task_definition }}
+          echo container = ${{ inputs.container }}
+          echo service = ${{ inputs.service }}
+          echo cluster = ${{ inputs.cluster }}
+          echo apiDocBucket = ${{ inputs.api_doc }}
+          echo commit = ${{ inputs.commit }}

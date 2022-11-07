@@ -44,12 +44,12 @@ on:
         type: string
         required: false
     outputs:
-      registry:
-        value: ${{ jobs.GetAwsValue.outputs.registry }}
-      repository:
-        value: ${{ jobs.GetAwsValue.outputs.repository }}
-      taskDefinition:
-        value: ${{ jobs.GetAwsValue.outputs.taskDefinition }}
+      ecr_registry:
+        value: ${{ jobs.GetAwsValue.outputs.ecr_registry }}
+      ecr_repository:
+        value: ${{ jobs.GetAwsValue.outputs.ecr_repository }}
+      task_definition:
+        value: ${{ jobs.GetAwsValue.outputs.task_definition }}
       container:
         value: ${{ jobs.GetAwsValue.outputs.container }}
       service:
@@ -58,21 +58,21 @@ on:
         value: ${{ jobs.GetAwsValue.outputs.cluster }}
       region:
         value: ${{ jobs.GetAwsValue.outputs.region }}
-      apiDoc:
-        value: ${{ jobs.GetAwsValue.outputs.apiDoc }}
+      api_doc:
+        value: ${{ jobs.GetAwsValue.outputs.api_doc }}
 
 jobs:
   GetAwsValue:
     runs-on: ubuntu-latest
     outputs:
-      registry: ${{ env.ECR_REGISTRY }}
-      repository: ${{ env.ECR_REPOSITORY }}
-      taskDefinition: ${{ env.TASK_DEFINITION }}
+      ecr_registry: ${{ env.ECR_REGISTRY }}
+      ecr_repository: ${{ env.ECR_REPOSITORY }}
+      task_definition: ${{ env.TASK_DEFINITION }}
       container: ${{ inputs.container_name }}
       service: ${{  env.SERVICE }}
       cluster: ${{ env.CLUSTER }}
       region: ${{ inputs.region }}
-      apiDoc: ${{ env.S3_API_DOC }}
+      api_doc: ${{ env.S3_API_DOC }}
 
     steps:
       - name: Get AWS account id
