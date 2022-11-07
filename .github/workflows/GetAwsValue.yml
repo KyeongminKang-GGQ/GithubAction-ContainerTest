@@ -4,10 +4,11 @@ name: GetAwsValue
 # 개발자는 아래 env 값을 확인하고 필요 시 수정해주어야 한다.
 # Backend AWS Naming Convention 을 참고하여 input 값을 넘겨주어야 한다.
 # link: https://docs.google.com/document/d/1loswue7bJ2u8h6eDSx0KFk6fhknEel5QKn-Tb96tonQ
+
+# inputs:
 # ex) product_name : ggq, pro, plp
 # ex) application_code : lol_statistics, lol_auth
 # ex) s3_api_doc_folder_name : ggq-lol-auth (s3 에서는 dash를 사용하므로)
-
 env:
   service_prefix: ecss
   cluster_prefix: ecsc
