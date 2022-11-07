@@ -39,6 +39,7 @@ jobs:
 
       - name: Send Issue Result
         uses: ggqcompany/github-actions-slack@v1
+        id: find-issues
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_TODO_WEBHOOK_URL }} # required
         with:
@@ -46,6 +47,9 @@ jobs:
           fields: all
           milestone: ${{ inputs.milestone }}
 
+      - run: |
+          echo "OPENED_ISSUE_COUNT=$(echo '${{ steps.find-issues.outputs.issues }}' | jq '. | length')" >> $GITHUB_ENV
+
       - name: Print opened issues
         run: |
-          echo "OPENED_ISSUE_COUNT=$(echo '${{ steps.find-issues.outputs.issues }}' | jq '. | length')" >> $GITHUB_ENV
+          echo OPENED_ISSUE_COUNT = ${{ env.OPENED_ISSUE_COUNT }}
