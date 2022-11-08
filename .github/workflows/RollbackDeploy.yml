@@ -32,9 +32,6 @@ on:
       commit:
         type: string
         required: true
-      environment:
-        type: string
-        required: true
       region:
         type: string
         required: true
