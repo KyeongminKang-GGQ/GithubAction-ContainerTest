@@ -68,11 +68,11 @@ jobs:
       ecr_registry: ${{ env.ECR_REGISTRY }}
       ecr_repository: ${{ env.ECR_REPOSITORY }}
       task_definition: ${{ env.TASK_DEFINITION }}
-      container: ${{ inputs.container_name }}
+      container: ${{ inputs.application_code }}
       service: ${{  env.SERVICE }}
       cluster: ${{ env.CLUSTER }}
       region: ${{ inputs.region }}
-      api_doc: ${{ env.S3_API_DOC }}
+      api_doc: ${{ env.API_DOC }}
 
     steps:
       - name: Get AWS account id
