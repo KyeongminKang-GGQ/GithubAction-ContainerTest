@@ -58,15 +58,16 @@ jobs:
     steps:
       - name: Print information
         run: |
+          echo environment = ${{ inputs.environment }}
           echo repository = ${{ inputs.repository }}
           echo ref_name = ${{ inputs.ref_name }}
-          echo ECR_REGISTRY = ${{ inputs.ecr_registry }}
-          echo ECR_REPOSITORY = ${{ inputs.ecr_repository }}
+          echo ecr_registry = ${{ inputs.ecr_registry }}
+          echo ecr_repository = ${{ inputs.ecr_repository }}
           echo task_definition = ${{ inputs.task_definition }}
           echo container = ${{ inputs.container }}
           echo service = ${{ inputs.service }}
           echo cluster = ${{ inputs.cluster }}
-          echo apiDocBucket = ${{ inputs.api_doc }}
+          echo api_doc = ${{ inputs.api_doc }}
           echo commit = ${{ inputs.commit }}
 
       # Extract 'ap-northeast-2', 'eu-west-1' -> 'an2', 'ew1'

@@ -105,7 +105,7 @@ jobs:
   # 입력 받은 tag 가 RC일 경우 STG 배포
   RollbackDeployToStg:
     if: ${{ contains(inputs.tag, 'rc') && needs.GetCommitFromTag.outputs.commit != '' }}
-    needs: [GetCommitFromTag, GetAwsValue]
+    needs: [ExtractEnvironment, GetCommitFromTag, GetAwsValue]
     #uses: ./.github/workflows/Deploy.yml
     uses: ./.github/workflows/JustPrintDeploy.yml
     secrets:
@@ -114,7 +114,7 @@ jobs:
     with:
       repository: ${{ inputs.repository }}
       ref_name: ${{ inputs.ref_name }}
-      environment: ${{ inputs.environment }}
+      environment: ${{ needs.ExtractEnvironment.outputs.environment }}
       region: ${{ inputs.region }}
       commit: ${{ needs.GetCommitFromTag.outputs.commit }}
       ecr_registry: ${{ needs.GetAwsValue.outputs.ecr_registry }}
@@ -129,7 +129,7 @@ jobs:
   # 입력 받은 tag 가 RC가 아닐 경우 PROD 배포
   RollbackDeployToProd:
     if: ${{ !contains(inputs.tag, 'rc') && needs.GetCommitFromTag.outputs.commit != '' }}
-    needs: [GetCommitFromTag, GetAwsValue]
+    needs: [ExtractEnvironment, GetCommitFromTag, GetAwsValue]
     #uses: ./.github/workflows/Deploy.yml
     uses: ./.github/workflows/JustPrintDeploy.yml
     secrets:
@@ -138,7 +138,7 @@ jobs:
     with:
       repository: ${{ inputs.repository }}
       ref_name: ${{ inputs.ref_name }}
-      environment: ${{ inputs.environment }}
+      environment: ${{ needs.ExtractEnvironment.outputs.environment }}
       region: ${{ inputs.region }}
       commit: ${{ needs.GetCommitFromTag.outputs.commit }}
       ecr_registry: ${{ needs.GetAwsValue.outputs.ecr_registry }}
