@@ -78,7 +78,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: ${{ inputs.ecr_repository }}
+          repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref_name }}
 
       - name: Configure AWS credentials
