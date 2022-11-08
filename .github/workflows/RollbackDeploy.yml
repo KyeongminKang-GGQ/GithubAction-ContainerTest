@@ -18,6 +18,9 @@ on:
       SLACK_WEBHOOK_URL:
         required: true
     inputs:
+      tag:
+        type: string
+        required: true
       # Checkout 시 필요한 Input Data
       repository:
         type: string
