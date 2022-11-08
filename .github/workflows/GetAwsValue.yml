@@ -6,7 +6,7 @@ name: GetAwsValue
 # link: https://docs.google.com/document/d/1loswue7bJ2u8h6eDSx0KFk6fhknEel5QKn-Tb96tonQ
 
 # inputs:
-# ex) product_name : ggq, pro, plp
+# ex) product_code : ggq, pro, plp
 # ex) application_code : lol_statistics, lol_auth
 # ex) s3_api_doc_folder_name : ggq-lol-auth (s3 에서는 dash를 사용하므로)
 env:
@@ -34,7 +34,7 @@ on:
       account_id_prod:
         type: string
         required: true
-      product_name:
+      product_code:
         type: string
         required: true
       application_code:
@@ -118,22 +118,22 @@ jobs:
       # 1. repository_prefix
       # 2. short name of region
       # 3. short name of environment
-      # 4. product_name
+      # 4. product_code
       # 5. application_code
       - name: Make repository name
         run: |
-          echo "ECR_REPOSITORY=$(echo ${{ env.repository_prefix }}-${{ env.SHORT_REGION }}-${{ env.SHORT_ENVIRONMENT }}-${{ inputs.product_name }}-${{ inputs.application_code }})" >> $GITHUB_ENV
+          echo "ECR_REPOSITORY=$(echo ${{ env.repository_prefix }}-${{ env.SHORT_REGION }}-${{ env.SHORT_ENVIRONMENT }}-${{ inputs.product_code }}-${{ inputs.application_code }})" >> $GITHUB_ENV
 
       # Make service name
       # (ex) [ecss]-[an2]-[d]-[ggq]-[lol_auth]
       # 1. service_prefix
       # 2. short name of region
       # 3. short name of environment
-      # 4. product_name
+      # 4. product_code
       # 5. application_code
       - name: Make service name
         run: |
-          echo "SERVICE=$(echo ${{ env.service_prefix }}-${{ env.SHORT_REGION }}-${{ env.SHORT_ENVIRONMENT }}-${{ inputs.product_name }}-${{ inputs.application_code }})" >> $GITHUB_ENV
+          echo "SERVICE=$(echo ${{ env.service_prefix }}-${{ env.SHORT_REGION }}-${{ env.SHORT_ENVIRONMENT }}-${{ inputs.product_code }}-${{ inputs.application_code }})" >> $GITHUB_ENV
 
       # Make cluster name
       # (ex) [ecsc]-[an2]-[d]-[ggq]
@@ -143,13 +143,13 @@ jobs:
       # 4. product name code
       - name: Make cluster name
         run: |
-          echo "CLUSTER=$(echo ${{ env.cluster_prefix }}-${{ env.SHORT_REGION }}-${{ env.SHORT_ENVIRONMENT }}-${{ inputs.product_name }})" >> $GITHUB_ENV
+          echo "CLUSTER=$(echo ${{ env.cluster_prefix }}-${{ env.SHORT_REGION }}-${{ env.SHORT_ENVIRONMENT }}-${{ inputs.product_code }})" >> $GITHUB_ENV
 
       # Make s3 bucket for api document name
       # (ex) [s3]-an2-[d]-master-api-doc/[ggq]-[lol-auth]
       # 1. s3_prefix
       # 2. short name of environment
-      # 2. product_name
+      # 2. product_code
       # 3. s3_name
       - name: Make s3 bucket name for api document
         run: |
